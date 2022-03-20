@@ -12,6 +12,21 @@ const sidebarConfig = [
     icon: getIcon('eva:pie-chart-2-fill')
   },
   {
+    title: 'teams',
+    path: '/dashboard/teams',
+    icon: getIcon('eva:people-fill')
+  },
+  {
+    title: 'Add Team',
+    path: '/dashboard/addteam',
+    icon: getIcon('eva:people-fill')
+  },
+  {
+    title: 'apps',
+    path: '/dashboard/apps',
+    icon: getIcon('eva:people-fill')
+  },
+  {
     title: 'user',
     path: '/dashboard/user',
     icon: getIcon('eva:people-fill')

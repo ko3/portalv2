@@ -10,6 +10,9 @@ import Products from './pages/Products';
 import Blog from './pages/Blog';
 import User from './pages/User';
 import NotFound from './pages/Page404';
+import Apps from './pages/Apps';
+import Teams from './pages/Teams';
+import AddTeam from './pages/AddTeam';
 
 // ----------------------------------------------------------------------
 
@@ -20,6 +23,9 @@ export default function Router() {
       element: <DashboardLayout />,
       children: [
         { path: 'app', element: <DashboardApp /> },
+        { path: 'teams', element: <Teams /> },
+        { path: 'addteam', element: <AddTeam /> },
+        { path: 'apps', element: <Apps /> },
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> }

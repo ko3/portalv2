@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import React from 'react';
 import * as Yup from 'yup';
-import { useFormik, Form, FormikProvider } from 'formik';
+import { useFormik, getIn } from 'formik';
 import { Link as RouterLink, useNavigate } from 'react-router-dom';
 // material
 import {
@@ -10,13 +10,12 @@ import {
   Container,
   Typography,
   TextField,
-  InputAdornment,
   Box,
-  styled,
   InputLabel,
   Select,
   MenuItem,
-  FormControl
+  FormControl,
+  IconButton
 } from '@mui/material';
 // components
 import Page from '../components/Page';
@@ -60,42 +59,73 @@ export default function AddTeam() {
       .required('members are required')
   });
 
+  const initialState = {
+    teamName: '',
+    description: '',
+    memberEmail: '',
+    role: '',
+    members: [
+      {
+        memberEmail: '',
+        role: ''
+      },
+      {
+        memberEmail: 'tewoxsf',
+        role: ''
+      },
+      {
+        memberEmail: 'thecdreews',
+        role: ''
+      }
+    ]
+  };
   const formik = useFormik({
-    initialValues: {
-      teamName: '',
-      description: '',
-      memberEmail: '',
-      role: 'Owner',
-      members: [
-        {
-          memberEmail: '',
-          role: 'Owner'
-        }
-      ]
-    },
+    initialValues: initialState,
     validationSchema: RegisterSchema,
     onSubmit: () => {
       navigate('/dashboard', { replace: true });
     }
   });
 
-  const { errors, touched, handleSubmit, isSubmitting, getFieldProps } = formik;
+  const {
+    errors,
+    touched,
+    handleSubmit,
+    isSubmitting,
+    getFieldProps,
+    setFieldValue,
+    resetForm,
+    setValues
+  } = formik;
+
+  const onRemoveMember = (index) => {
+    const members = getFieldProps('members').value.filter((el, i) => i !== index);
+    if (members.length > 1) setFieldValue('members', members, true);
+  };
+  const onAddMember = () => {
+    const members = getFieldProps('members').value;
+    members.push({
+      memberEmail: '',
+      role: ''
+    });
+    setFieldValue('members', members, true);
+  };
+
+  const onReset = () => {
+    setValues(initialState, true);
+  };
+
+  const onSave = () => {
+    console.log('saved');
+  };
 
   return (
-    <Page title="Teams | Portal">
+    <Page title="Add Team | Portal">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
             New Team
           </Typography>
-          <Button
-            variant="contained"
-            component={RouterLink}
-            to="#"
-            startIcon={<Iconify icon="eva:plus-fill" />}
-          >
-            New Team
-          </Button>
         </Stack>
 
         <Card>
@@ -121,44 +151,100 @@ export default function AddTeam() {
                   />
                 </Stack>
                 <Typography sx={{ color: 'text.secondary' }}>Members</Typography>
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ maxWidth: 980 }}>
-                  <TextField
-                    fullWidth
-                    label="Email Address"
-                    {...getFieldProps('memberEmail')}
-                    error={Boolean(touched.memberEmail && errors.memberEmail)}
-                    helperText={touched.memberEmail && errors.memberEmail}
-                  />
-                  <FormControl fullWidth>
-                    <InputLabel id="role-select-label">Role</InputLabel>
-                    <Select
-                      labelId="role-select-label"
-                      id="role-select"
+                {getFieldProps('members').value.map((element, index) => (
+                  <Stack
+                    key={index}
+                    direction={{ xs: 'column', sm: 'row' }}
+                    spacing={2}
+                    sx={{ maxWidth: 980 }}
+                  >
+                    <TextField
                       fullWidth
-                      label="Role"
-                      {...getFieldProps('role')}
-                      error={Boolean(touched.role && errors.role)}
-                      helperText={touched.role && errors.role}
+                      label="Email Address"
+                      {...getFieldProps(`members[${index}].memberEmail`)}
+                      error={Boolean(
+                        getIn(touched, `members[${index}].memberEmail`) &&
+                          getIn(errors, `members[${index}].memberEmail`)
+                      )}
+                      helperText={
+                        getIn(touched, `members[${index}].memberEmail`) &&
+                        getIn(errors, `members[${index}].memberEmail`)
+                      }
+                    />
+                    <FormControl fullWidth>
+                      <InputLabel id="role-select-label">Role</InputLabel>
+                      <Select
+                        labelId="role-select-label"
+                        id="role-select"
+                        fullWidth
+                        label="Role"
+                        {...getFieldProps(`members[${index}].role`)}
+                        error={Boolean(
+                          getIn(touched, `members[${index}].role`) &&
+                            getIn(errors, `members[${index}].role`)
+                        )}
+                      >
+                        {ROLES.map((row) => {
+                          const { label, value } = row;
+                          return (
+                            <MenuItem key={value} value={value}>
+                              {label}
+                            </MenuItem>
+                          );
+                        })}
+                      </Select>
+                    </FormControl>
+                    <IconButton
+                      aria-label="delete"
+                      size="large"
+                      sx={{ alignItems: 'center' }}
+                      onClick={() => {
+                        onRemoveMember(index);
+                      }}
                     >
-                      {ROLES.map((row) => {
-                        const { label, value } = row;
-                        return (
-                          <MenuItem key={value} value={value}>
-                            {label}
-                          </MenuItem>
-                        );
-                      })}
-                    </Select>
-                  </FormControl>
-                </Stack>
+                      <Iconify icon="eva:trash-2-outline" />
+                    </IconButton>
+                  </Stack>
+                ))}
                 <Button
                   sx={{ maxWidth: 150 }}
                   variant="contained"
                   component={RouterLink}
                   to="#"
                   startIcon={<Iconify icon="eva:plus-fill" />}
+                  onClick={() => {
+                    onAddMember();
+                  }}
                 >
                   Add Member
+                </Button>
+              </Stack>
+            </Box>
+            <Box sx={{ m: 5 }}>
+              <Stack direction={{ xs: 'column', sm: 'row' }} spacing={2} sx={{ maxWidth: 980 }}>
+                <Button
+                  sx={{ maxWidth: 250 }}
+                  variant="contained"
+                  component={RouterLink}
+                  to="#"
+                  startIcon={<Iconify icon="eva:trash-fill" />}
+                  onClick={() => {
+                    onReset();
+                  }}
+                >
+                  Reset
+                </Button>
+                <Button
+                  sx={{ maxWidth: 250 }}
+                  variant="contained"
+                  component={RouterLink}
+                  to="#"
+                  startIcon={<Iconify icon="eva:save-fill" />}
+                  onClick={() => {
+                    onSave();
+                  }}
+                >
+                  Save
                 </Button>
               </Stack>
             </Box>

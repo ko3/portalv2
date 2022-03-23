@@ -100,7 +100,7 @@ export default function AddTeam() {
 
   const onRemoveMember = (index) => {
     const members = getFieldProps('members').value.filter((el, i) => i !== index);
-    if (members.length > 1) setFieldValue('members', members, true);
+    if (members.length > 0) setFieldValue('members', members, true);
   };
   const onAddMember = () => {
     const members = getFieldProps('members').value;

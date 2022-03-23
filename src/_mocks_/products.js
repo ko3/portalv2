@@ -51,6 +51,7 @@ const products = [...Array(24)].map((_, index) => {
     id: faker.datatype.uuid(),
     cover: mockImgProduct(setIndex),
     name: PRODUCT_NAME[index],
+    description: faker.commerce.productDescription(),
     price: faker.datatype.number({ min: 4, max: 99, precision: 0.01 }),
     priceSale: setIndex % 3 ? null : faker.datatype.number({ min: 19, max: 29, precision: 0.01 }),
     colors:
@@ -61,7 +62,8 @@ const products = [...Array(24)].map((_, index) => {
       (setIndex === 23 && PRODUCT_COLOR.slice(4, 6)) ||
       (setIndex === 24 && PRODUCT_COLOR.slice(5, 6)) ||
       PRODUCT_COLOR,
-    status: sample(['sale', 'new', '', ''])
+    status: sample(['sale', 'new', '', '']),
+    approval: sample(['approved', 'pending', 'revoked'])
   };
 });
 

@@ -3,6 +3,7 @@ import { Link as RouterLink } from 'react-router-dom';
 // material
 import { Box, Card, Link, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
+import Switch from '@mui/material/Switch';
 // utils
 import { fCurrency } from '../../../utils/formatNumber';
 //
@@ -22,30 +23,59 @@ const ProductImgStyle = styled('img')({
 // ----------------------------------------------------------------------
 
 ShopProductCard.propTypes = {
-  product: PropTypes.object
+  product: PropTypes.object,
+  toggleSwitch: PropTypes.func
 };
 
-export default function ShopProductCard({ product }) {
-  const { name, cover, price, colors, status, priceSale } = product;
+const label = { inputProps: { 'aria-label': 'Switch demo' } };
+/**
+ * 
+ * sx={{
+                zIndex: 9,
+                top: 16,
+                right: 16,
+                position: 'absolute',
+                textTransform: 'uppercase'
+              }}
+ */
+
+export default function ShopProductCard({ product, toggleSwitch }) {
+  const { name, cover, price, colors, status, priceSale, approval } = product;
 
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
-        {status && (
-          <Label
-            variant="filled"
-            color={(status === 'sale' && 'error') || 'info'}
-            sx={{
-              zIndex: 9,
-              top: 16,
-              right: 16,
-              position: 'absolute',
-              textTransform: 'uppercase'
-            }}
-          >
-            {status}
-          </Label>
-        )}
+        <Stack direction="row" alignItems="center" justifyContent="space-between">
+          {approval && (
+            <Switch
+              onChange={(e) => {
+                toggleSwitch(e, product);
+              }}
+              sx={{
+                zIndex: 9,
+                top: 10,
+                left: 5,
+                position: 'absolute',
+                textTransform: 'uppercase'
+              }}
+            />
+          )}
+          {status && (
+            <Label
+              variant="filled"
+              color={(status === 'sale' && 'error') || 'info'}
+              sx={{
+                zIndex: 9,
+                top: 16,
+                right: 16,
+                position: 'absolute',
+                textTransform: 'uppercase'
+              }}
+            >
+              {status}
+            </Label>
+          )}
+        </Stack>
         <ProductImgStyle alt={name} src={cover} />
       </Box>
 

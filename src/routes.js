@@ -13,6 +13,7 @@ import NotFound from './pages/Page404';
 import Apps from './pages/Apps';
 import Teams from './pages/Teams';
 import AddTeam from './pages/AddTeam';
+import AddApp from './pages/AddApp';
 
 // ----------------------------------------------------------------------
 
@@ -26,6 +27,7 @@ export default function Router() {
         { path: 'teams', element: <Teams /> },
         { path: 'addteam', element: <AddTeam /> },
         { path: 'apps', element: <Apps /> },
+        { path: 'addapp', element: <AddApp /> },
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> }

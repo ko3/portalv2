@@ -24,16 +24,23 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TablePagination
+  TablePagination,
+  Tooltip,
+  IconButton
 } from '@mui/material';
 // components
-import { ProductSort, ProductList, ProductFilterSidebar } from '../sections/@dashboard/products';
 import Page from '../components/Page';
 import Label from '../components/Label';
 import Scrollbar from '../components/Scrollbar';
 import Iconify from '../components/Iconify';
 import SearchNotFound from '../components/SearchNotFound';
-import { UserListHead, UserListToolbar, UserMoreMenu } from '../sections/@dashboard/user';
+import {
+  ProductSort,
+  ProductList,
+  ProductFilterSidebar,
+  ProductsListHead,
+  ProductsListToolbar
+} from '../sections/@dashboard/products';
 //
 import TEAMS from '../_mocks_/teams';
 import PRODUCTS from '../_mocks_/products';
@@ -142,14 +149,17 @@ export default function AddApp() {
     resetForm();
   };
 
+  const [products, setProducts] = useState(PRODUCTS);
   const [selectProducts, setSelectProducts] = useState([]);
 
-  const handleToggleSwitch = (event, product) => {
+  const handleToggleSwitch = (event, product, index) => {
     if (event.target.checked) {
+      products[index].checked = true;
       setSelectProducts((selectProducts) => [...selectProducts, product]);
     } else {
+      products[index].checked = false;
       setSelectProducts(
-        selectProducts.filter((selectedProduct) => selectedProduct.id === product.id)
+        selectProducts.filter((selectedProduct) => selectedProduct.id !== product.id)
       );
     }
   };
@@ -207,6 +217,10 @@ export default function AddApp() {
     setFilterName(event.target.value);
   };
 
+  const deSelectedProduct = (event, id) => {
+    setSelectProducts(selectProducts.filter((product) => product.id !== id));
+  };
+
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - selectProducts.length) : 0;
 
   const filteredUsers = applySortFilter(selectProducts, getComparator(order, orderBy), filterName);
@@ -223,8 +237,6 @@ export default function AddApp() {
         </Stack>
         <Card>
           <Container>
-            {/* <Stack direction="row">
-              <Stack width="80%"> */}
             <Box sx={{ m: 5 }}>
               <Stack spacing={2}>
                 <Typography sx={{ color: 'text.secondary' }}>Overview</Typography>
@@ -270,7 +282,7 @@ export default function AddApp() {
                 </Stack>
                 <Stack>
                   <Card>
-                    <UserListToolbar
+                    <ProductsListToolbar
                       numSelected={selected.length}
                       filterName={filterName}
                       onFilterName={handleFilterByName}
@@ -279,11 +291,11 @@ export default function AddApp() {
                     <Scrollbar>
                       <TableContainer sx={{ minWidth: 800 }}>
                         <Table>
-                          <UserListHead
+                          <ProductsListHead
                             order={order}
                             orderBy={orderBy}
                             headLabel={TABLE_HEAD}
-                            rowCount={PRODUCTS.length}
+                            rowCount={selectProducts.length}
                             numSelected={selected.length}
                             onRequestSort={handleRequestSort}
                             onSelectAllClick={handleSelectAllClick}
@@ -330,6 +342,13 @@ export default function AddApp() {
                                         {sentenceCase(approval)}
                                       </Label>
                                     </TableCell>
+                                    <TableCell align="left">
+                                      <Tooltip title="Delete">
+                                        <IconButton onClick={(e) => deSelectedProduct(e, id)}>
+                                          <Iconify icon="eva:trash-2-fill" />
+                                        </IconButton>
+                                      </Tooltip>
+                                    </TableCell>
                                   </TableRow>
                                 );
                               })}
@@ -355,7 +374,7 @@ export default function AddApp() {
                     <TablePagination
                       rowsPerPageOptions={[5, 10, 25]}
                       component="div"
-                      count={PRODUCTS.length}
+                      count={selectProducts.length}
                       rowsPerPage={rowsPerPage}
                       page={page}
                       onPageChange={handleChangePage}
@@ -395,13 +414,6 @@ export default function AddApp() {
                 </Button>
               </Stack>
             </Box>
-            {/* </Stack>
-              <Stack width="20%">
-                <Container sx={{ mt: 5, mb: 5, overflow: 'hidden' }}>
-                  <ProductList products={PRODUCTS} />
-                </Container>
-                    </Stack>
-            </Stack> */}
           </Container>
         </Card>
       </Container>
@@ -425,7 +437,7 @@ export default function AddApp() {
             <ProductSort />
           </Stack>
         </Stack>
-        <ProductList products={PRODUCTS} toggleSwitch={handleToggleSwitch} />
+        <ProductList products={products} toggleSwitch={handleToggleSwitch} />
       </Container>
     </Page>
   );

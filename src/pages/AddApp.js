@@ -152,18 +152,6 @@ export default function AddApp() {
   const [products, setProducts] = useState(PRODUCTS);
   const [selectProducts, setSelectProducts] = useState([]);
 
-  const handleToggleSwitch = (event, product, index) => {
-    if (event.target.checked) {
-      products[index].checked = true;
-      setSelectProducts((selectProducts) => [...selectProducts, product]);
-    } else {
-      products[index].checked = false;
-      setSelectProducts(
-        selectProducts.filter((selectedProduct) => selectedProduct.id !== product.id)
-      );
-    }
-  };
-
   const [page, setPage] = useState(0);
   const [order, setOrder] = useState('asc');
   const [selected, setSelected] = useState([]);
@@ -217,8 +205,23 @@ export default function AddApp() {
     setFilterName(event.target.value);
   };
 
-  const deSelectedProduct = (event, id) => {
-    setSelectProducts(selectProducts.filter((product) => product.id !== id));
+  const onDelete = (event, rmproduct, index) => {
+    setSelectProducts(selectProducts.filter((product) => product.id !== rmproduct.id));
+    products
+      .filter((product) => product.id === rmproduct.id)
+      .forEach((product) => (product.checked = false));
+  };
+
+  const toggleSelect = (event, product, index) => {
+    if (event.target.checked) {
+      products[index].checked = true;
+      setSelectProducts((selectProducts) => [...selectProducts, product]);
+    } else {
+      products[index].checked = false;
+      setSelectProducts(
+        selectProducts.filter((selectedProduct) => selectedProduct.id !== product.id)
+      );
+    }
   };
 
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - selectProducts.length) : 0;
@@ -303,7 +306,7 @@ export default function AddApp() {
                           <TableBody>
                             {selectProducts
                               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                              .map((row) => {
+                              .map((row, index) => {
                                 const { id, name, cover, description, approval } = row;
                                 const isItemSelected = selected.indexOf(name) !== -1;
                                 return (
@@ -344,7 +347,9 @@ export default function AddApp() {
                                     </TableCell>
                                     <TableCell align="left">
                                       <Tooltip title="Delete">
-                                        <IconButton onClick={(e) => deSelectedProduct(e, id)}>
+                                        <IconButton
+                                          onClick={(event) => onDelete(event, row, index)}
+                                        >
                                           <Iconify icon="eva:trash-2-fill" />
                                         </IconButton>
                                       </Tooltip>
@@ -437,7 +442,7 @@ export default function AddApp() {
             <ProductSort />
           </Stack>
         </Stack>
-        <ProductList products={products} toggleSwitch={handleToggleSwitch} />
+        <ProductList products={products} toggleSelect={toggleSelect} />
       </Container>
     </Page>
   );

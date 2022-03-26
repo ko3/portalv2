@@ -24,7 +24,7 @@ const ProductImgStyle = styled('img')({
 
 ShopProductCard.propTypes = {
   product: PropTypes.object,
-  toggleSwitch: PropTypes.func,
+  toggleSelect: PropTypes.func,
   index: PropTypes.number
 };
 
@@ -40,7 +40,7 @@ const label = { inputProps: { 'aria-label': 'Switch demo' } };
               }}
  */
 
-export default function ShopProductCard({ product, toggleSwitch, index }) {
+export default function ShopProductCard({ product, toggleSelect, index }) {
   if (product.checked === undefined) {
     product.checked = false;
   }
@@ -53,8 +53,8 @@ export default function ShopProductCard({ product, toggleSwitch, index }) {
           {approval && (
             <Switch
               checked={checked}
-              onChange={(e) => {
-                toggleSwitch(e, product, index);
+              onChange={(event) => {
+                toggleSelect(event, product, index);
               }}
               sx={{
                 zIndex: 9,

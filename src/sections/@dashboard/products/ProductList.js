@@ -7,15 +7,15 @@ import ShopProductCard from './ProductCard';
 
 ProductList.propTypes = {
   products: PropTypes.array.isRequired,
-  toggleSwitch: PropTypes.func
+  toggleSelect: PropTypes.func
 };
 
-export default function ProductList({ products, toggleSwitch, ...other }) {
+export default function ProductList({ products, toggleSelect, ...other }) {
   return (
     <Grid container spacing={3} {...other}>
       {products.map((product, index) => (
         <Grid key={product.id} item xs={12} sm={6} md={3}>
-          <ShopProductCard product={product} toggleSwitch={toggleSwitch} index={index} />
+          <ShopProductCard product={product} toggleSelect={toggleSelect} index={index} />
         </Grid>
       ))}
     </Grid>

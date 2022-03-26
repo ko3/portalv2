@@ -131,7 +131,6 @@ export default function ViewApp() {
                   </Typography>
                   <Typography>{description}</Typography>
                 </Stack>
-                <Typography sx={{ color: 'text.secondary' }}>Members</Typography>
                 <Stack spacing={2} sx={{ maxWidth: 480 }}>
                   <Typography
                     sx={{ mt: 0.5 }}
@@ -144,6 +143,7 @@ export default function ViewApp() {
                   <Typography>{owner}</Typography>
                 </Stack>
                 <Stack>
+                  <Typography sx={{ color: 'text.secondary', mb: 2 }}>Products</Typography>
                   <Card>
                     <ProductsListToolbar
                       numSelected={0}

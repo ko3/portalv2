@@ -270,7 +270,6 @@ export default function AddApp() {
                     helperText={touched.description && errors.description}
                   />
                 </Stack>
-                <Typography sx={{ color: 'text.secondary' }}>Members</Typography>
                 <Stack spacing={2} sx={{ maxWidth: 480 }}>
                   <FormControl fullWidth>
                     <InputLabel id="owner-select-label">Owner</InputLabel>
@@ -294,6 +293,7 @@ export default function AddApp() {
                   </FormControl>
                 </Stack>
                 <Stack>
+                  <Typography sx={{ color: 'text.secondary', mb: 2 }}>Products</Typography>
                   <Card>
                     <ProductsListToolbar
                       numSelected={selected.length}

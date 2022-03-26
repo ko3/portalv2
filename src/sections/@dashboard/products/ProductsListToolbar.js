@@ -39,10 +39,16 @@ const SearchStyle = styled(OutlinedInput)(({ theme }) => ({
 ProductsListToolbar.propTypes = {
   numSelected: PropTypes.number,
   filterName: PropTypes.string,
-  onFilterName: PropTypes.func
+  onFilterName: PropTypes.func,
+  removeChecked: PropTypes.func
 };
 
-export default function ProductsListToolbar({ numSelected, filterName, onFilterName }) {
+export default function ProductsListToolbar({
+  numSelected,
+  filterName,
+  onFilterName,
+  removeChecked
+}) {
   return (
     <RootStyle
       sx={{
@@ -71,7 +77,7 @@ export default function ProductsListToolbar({ numSelected, filterName, onFilterN
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={removeChecked}>
             <Iconify icon="eva:trash-2-fill" />
           </IconButton>
         </Tooltip>

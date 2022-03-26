@@ -22,6 +22,11 @@ const sidebarConfig = [
     icon: getIcon('eva:people-fill')
   },
   {
+    title: 'view team',
+    path: '/dashboard/viewteam',
+    icon: getIcon('eva:people-fill')
+  },
+  {
     title: 'apps',
     path: '/dashboard/apps',
     icon: getIcon('eva:people-fill')
@@ -29,6 +34,11 @@ const sidebarConfig = [
   {
     title: 'add app',
     path: '/dashboard/addapp',
+    icon: getIcon('eva:people-fill')
+  },
+  {
+    title: 'view app',
+    path: '/dashboard/viewapp',
     icon: getIcon('eva:people-fill')
   },
   {

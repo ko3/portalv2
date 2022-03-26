@@ -168,17 +168,18 @@ export default function AddApp() {
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelecteds = selectProducts.map((n) => n.name);
+      console.log(newSelecteds);
       setSelected(newSelecteds);
       return;
     }
     setSelected([]);
   };
 
-  const handleClick = (event, name) => {
-    const selectedIndex = selected.indexOf(name);
+  const handleClick = (event, id) => {
+    const selectedIndex = selected.indexOf(id);
     let newSelected = [];
     if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
+      newSelected = newSelected.concat(selected, id);
     } else if (selectedIndex === 0) {
       newSelected = newSelected.concat(selected.slice(1));
     } else if (selectedIndex === selected.length - 1) {
@@ -224,11 +225,20 @@ export default function AddApp() {
     }
   };
 
+  const removeChecked = () => {
+    setSelectProducts(selectProducts.filter((prdct) => selected.indexOf(prdct.id) < 0));
+    setSelected([]);
+  };
+
   const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - selectProducts.length) : 0;
 
-  const filteredUsers = applySortFilter(selectProducts, getComparator(order, orderBy), filterName);
+  const filteredProducts = applySortFilter(
+    selectProducts,
+    getComparator(order, orderBy),
+    filterName
+  );
 
-  const isUserNotFound = filteredUsers.length === 0;
+  const isProductNotFound = selectProducts.length > 0 && filteredProducts.length === 0;
 
   return (
     <Page title="Add App | Portal">
@@ -289,6 +299,7 @@ export default function AddApp() {
                       numSelected={selected.length}
                       filterName={filterName}
                       onFilterName={handleFilterByName}
+                      removeChecked={removeChecked}
                     />
 
                     <Scrollbar>
@@ -308,7 +319,7 @@ export default function AddApp() {
                               .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                               .map((row, index) => {
                                 const { id, name, cover, description, approval } = row;
-                                const isItemSelected = selected.indexOf(name) !== -1;
+                                const isItemSelected = selected.indexOf(id) !== -1;
                                 return (
                                   <TableRow
                                     hover
@@ -321,7 +332,7 @@ export default function AddApp() {
                                     <TableCell padding="checkbox">
                                       <Checkbox
                                         checked={isItemSelected}
-                                        onChange={(event) => handleClick(event, name)}
+                                        onChange={(event) => handleClick(event, id)}
                                       />
                                     </TableCell>
                                     <TableCell component="th" scope="row" padding="none">
@@ -363,7 +374,7 @@ export default function AddApp() {
                               </TableRow>
                             )}
                           </TableBody>
-                          {isUserNotFound && (
+                          {isProductNotFound && (
                             <TableBody>
                               <TableRow>
                                 <TableCell align="center" colSpan={6} sx={{ py: 3 }}>

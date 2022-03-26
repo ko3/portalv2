@@ -14,6 +14,8 @@ import Apps from './pages/Apps';
 import Teams from './pages/Teams';
 import AddTeam from './pages/AddTeam';
 import AddApp from './pages/AddApp';
+import ViewApp from './pages/ViewApp';
+import ViewTeam from './pages/ViewTeam';
 
 // ----------------------------------------------------------------------
 
@@ -26,8 +28,10 @@ export default function Router() {
         { path: 'app', element: <DashboardApp /> },
         { path: 'teams', element: <Teams /> },
         { path: 'addteam', element: <AddTeam /> },
+        { path: 'viewteam', element: <ViewTeam /> },
         { path: 'apps', element: <Apps /> },
         { path: 'addapp', element: <AddApp /> },
+        { path: 'viewapp', element: <ViewApp /> },
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> }

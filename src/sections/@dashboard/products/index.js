@@ -5,3 +5,4 @@ export { default as ProductList } from './ProductList';
 export { default as ProductSort } from './ProductSort';
 export { default as ProductsListHead } from './ProductsListHead';
 export { default as ProductsListToolbar } from './ProductsListToolbar';
+export { default as ProductsListHeadView } from './ProductsListHeadView';

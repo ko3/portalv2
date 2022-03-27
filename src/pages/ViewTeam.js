@@ -3,22 +3,35 @@ import React from 'react';
 import { Card, Stack, Container, Typography, Box } from '@mui/material';
 // components
 import Page from '../components/Page';
+import { TableView } from '../sections/@dashboard/view';
 
+const TABLE_HEAD = [
+  { id: 'name', label: 'Member Email', alignRight: false },
+  { id: 'role', label: 'role', alignRight: false },
+  { id: 'status', label: 'Status', alignRight: false },
+  { id: 'memberid', label: 'Member Id', alignRight: false }
+];
 export default function AddTeam() {
   const teamName = 'spartans';
   const description = '300 alone fought big army in movie';
   const members = [
     {
-      email: 'memberone@email.com',
-      role: 'Owner'
+      name: 'memberone@email.com',
+      description: 'Owner',
+      approval: 'approved',
+      id: '98fhg49r2g9g498'
     },
     {
-      email: 'membertwo@email.com',
-      role: 'AppAdmin'
+      name: 'membertwo@email.com',
+      description: 'AppAdmin',
+      approval: 'approved',
+      id: '98fhg49r2g9g498'
     },
     {
-      email: 'memberthree@email.com',
-      role: 'Viewer'
+      name: 'memberthree@email.com',
+      description: 'Viewer',
+      approval: 'approved',
+      id: '98fhg49r2g9g498'
     }
   ];
   return (
@@ -57,35 +70,7 @@ export default function AddTeam() {
                   <Typography>{description}</Typography>
                 </Stack>
                 <Typography sx={{ color: 'text.secondary' }}>Members</Typography>
-                <Stack direction={{ xs: 'column', sm: 'row' }} spacing={30} sx={{ maxWidth: 980 }}>
-                  <Typography
-                    sx={{ mt: 0.5 }}
-                    color="text.secondary"
-                    display="block"
-                    variant="caption"
-                  >
-                    Member Email
-                  </Typography>
-                  <Typography
-                    sx={{ mt: 0.5 }}
-                    color="text.secondary"
-                    display="block"
-                    variant="caption"
-                  >
-                    Role
-                  </Typography>
-                </Stack>
-                {members.map((member, index) => (
-                  <Stack
-                    key={index}
-                    direction={{ xs: 'column', sm: 'row' }}
-                    spacing={30}
-                    sx={{ maxWidth: 980 }}
-                  >
-                    <Typography>{member.email}</Typography>
-                    <Typography>{member.role}</Typography>
-                  </Stack>
-                ))}
+                <TableView headLabel={TABLE_HEAD} rows={members} />
               </Stack>
             </Box>
           </Container>

@@ -168,8 +168,8 @@ export default function ViewApp() {
                               .map((row) => {
                                 const { id, name, cover, description, approval } = row;
                                 return (
-                                  <TableRow hover key={id} tabIndex={-1} role="checkbox">
-                                    <TableCell component="th" scope="row" padding="none">
+                                  <TableRow hover key={id}>
+                                    <TableCell component="th" scope="row">
                                       <Stack direction="row" alignItems="center" spacing={2}>
                                         <Avatar alt={name} src={cover} />
                                         <Typography variant="subtitle2" noWrap>

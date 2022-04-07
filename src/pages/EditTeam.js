@@ -27,7 +27,7 @@ const ROLES = [
     label: 'Owner'
   },
   {
-    value: 'App_Admin',
+    value: 'App Admin',
     label: 'App Admin'
   },
   {
@@ -35,8 +35,31 @@ const ROLES = [
     label: 'Viewer'
   }
 ];
-export default function AddTeam() {
+export default function EditTeam() {
   const navigate = useNavigate();
+
+  const initialState = {
+    teamName: 'OnTheRocks',
+    description: 'Team is created to handle all own the apps handle them together',
+    members: [
+      {
+        memberEmail: 'brufge.ford@jaye.com',
+        role: 'Owner'
+      },
+      {
+        memberEmail: 'Hwjee.scyla@jaye.com',
+        role: 'App Admin'
+      },
+      {
+        memberEmail: 'zomsd.jwsd@jaye.com',
+        role: 'Viewer'
+      },
+      {
+        memberEmail: 'uwedf.jwsd@jaye.com',
+        role: 'Viewer'
+      }
+    ]
+  };
 
   const RegisterSchema = Yup.object().shape({
     teamName: Yup.string().min(2, 'Too Short!').max(50, 'Too Long!').required('Team name required'),
@@ -58,27 +81,6 @@ export default function AddTeam() {
       )
       .required('members are required')
   });
-
-  const initialState = {
-    teamName: '',
-    description: '',
-    memberEmail: '',
-    role: '',
-    members: [
-      {
-        memberEmail: '',
-        role: ''
-      },
-      {
-        memberEmail: 'tewoxsf',
-        role: ''
-      },
-      {
-        memberEmail: 'thecdreews',
-        role: ''
-      }
-    ]
-  };
   const formik = useFormik({
     initialValues: initialState,
     validationSchema: RegisterSchema,
@@ -119,12 +121,16 @@ export default function AddTeam() {
     console.log('saved');
   };
 
+  const onDelete = () => {
+    console.log('deleted');
+  };
+
   return (
-    <Page title="Add Team | Portal">
+    <Page title="Edit Team | Portal">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            New Team
+            Edit Team
           </Typography>
         </Stack>
 
@@ -245,6 +251,18 @@ export default function AddTeam() {
                   }}
                 >
                   Save
+                </Button>
+                <Button
+                  sx={{ maxWidth: 250 }}
+                  variant="contained"
+                  component={RouterLink}
+                  to="#"
+                  startIcon={<Iconify icon="eva:trash-fill" />}
+                  onClick={() => {
+                    onDelete();
+                  }}
+                >
+                  Delete
                 </Button>
               </Stack>
             </Box>

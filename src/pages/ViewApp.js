@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 import { filter } from 'lodash';
 import { sentenceCase } from 'change-case';
 // material
@@ -14,7 +15,8 @@ import {
   TableBody,
   TableCell,
   TableContainer,
-  TablePagination
+  TablePagination,
+  Button
 } from '@mui/material';
 // components
 import Page from '../components/Page';
@@ -24,6 +26,7 @@ import SearchNotFound from '../components/SearchNotFound';
 import { ProductsListHeadView, ProductsListToolbar } from '../sections/@dashboard/products';
 //
 import PRODUCTS from '../_mocks_/products';
+import Iconify from '../components/Iconify';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', alignRight: false },
@@ -97,14 +100,55 @@ export default function ViewApp() {
   const appName = 'dummy App name';
   const description = 'hello this is description here';
   const owner = 'Yes this is owner of the app';
+  const onEdit = () => {
+    console.log('Edited, navigate to edit page');
+  };
+
+  const onDelete = () => {
+    console.log('deleted');
+  };
 
   return (
     <Page title="App View | Portal">
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            App View
-          </Typography>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={5}
+          padding={2}
+        >
+          <Stack>
+            <Typography variant="h4" gutterBottom>
+              App View
+            </Typography>
+          </Stack>
+          <Stack direction="row" spacing={5}>
+            <Button
+              sx={{ maxWidth: 250 }}
+              variant="contained"
+              component={RouterLink}
+              to="#"
+              startIcon={<Iconify icon="eva:edit-2-fill" />}
+              onClick={() => {
+                onEdit();
+              }}
+            >
+              Edit
+            </Button>
+            <Button
+              sx={{ maxWidth: 250 }}
+              variant="contained"
+              component={RouterLink}
+              to="#"
+              startIcon={<Iconify icon="eva:trash-fill" />}
+              onClick={() => {
+                onDelete();
+              }}
+            >
+              Delete
+            </Button>
+          </Stack>
         </Stack>
         <Card>
           <Container>

@@ -1,9 +1,11 @@
 import React from 'react';
+import { Link as RouterLink } from 'react-router-dom';
 // material
-import { Card, Stack, Container, Typography, Box } from '@mui/material';
+import { Card, Stack, Container, Typography, Box, Button } from '@mui/material';
 // components
 import Page from '../components/Page';
 import { TableView } from '../sections/@dashboard/view';
+import Iconify from '../components/Iconify';
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Member Email', alignRight: false },
@@ -34,13 +36,56 @@ export default function AddTeam() {
       id: '98fhg49r2g9g498'
     }
   ];
+
+  const onEdit = () => {
+    console.log('Edited, navigate to edit page');
+  };
+
+  const onDelete = () => {
+    console.log('deleted');
+  };
+
   return (
     <Page title="View Team | Portal">
       <Container>
-        <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
-          <Typography variant="h4" gutterBottom>
-            View Team
-          </Typography>
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          mb={5}
+          padding={2}
+        >
+          <Stack>
+            <Typography variant="h4" gutterBottom>
+              View Team
+            </Typography>
+          </Stack>
+          <Stack direction="row" spacing={5}>
+            <Button
+              sx={{ maxWidth: 250 }}
+              variant="contained"
+              component={RouterLink}
+              to="#"
+              startIcon={<Iconify icon="eva:edit-2-fill" />}
+              onClick={() => {
+                onEdit();
+              }}
+            >
+              Edit
+            </Button>
+            <Button
+              sx={{ maxWidth: 250 }}
+              variant="contained"
+              component={RouterLink}
+              to="#"
+              startIcon={<Iconify icon="eva:trash-fill" />}
+              onClick={() => {
+                onDelete();
+              }}
+            >
+              Delete
+            </Button>
+          </Stack>
         </Stack>
 
         <Card>

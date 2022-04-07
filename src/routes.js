@@ -16,22 +16,36 @@ import AddTeam from './pages/AddTeam';
 import AddApp from './pages/AddApp';
 import ViewApp from './pages/ViewApp';
 import ViewTeam from './pages/ViewTeam';
+import EditTeam from './pages/EditTeam';
+import EditApp from './pages/EditApp';
 
 // ----------------------------------------------------------------------
 
 export default function Router() {
   return useRoutes([
     {
-      path: '/dashboard',
+      path: '/app',
       element: <DashboardLayout />,
       children: [
-        { path: 'app', element: <DashboardApp /> },
-        { path: 'teams', element: <Teams /> },
-        { path: 'addteam', element: <AddTeam /> },
-        { path: 'viewteam', element: <ViewTeam /> },
-        { path: 'apps', element: <Apps /> },
-        { path: 'addapp', element: <AddApp /> },
-        { path: 'viewapp', element: <ViewApp /> },
+        { path: 'dashboard', element: <DashboardApp /> },
+        {
+          path: 'teams',
+          children: [
+            { index: true, element: <Teams /> },
+            { path: 'view', element: <ViewTeam /> },
+            { path: 'edit', element: <EditTeam /> },
+            { path: 'add', element: <AddTeam /> }
+          ]
+        },
+        {
+          path: 'apps',
+          children: [
+            { index: true, element: <Apps /> },
+            { path: 'view', element: <ViewApp /> },
+            { path: 'edit', element: <EditApp /> },
+            { path: 'add', element: <AddApp /> }
+          ]
+        },
         { path: 'user', element: <User /> },
         { path: 'products', element: <Products /> },
         { path: 'blog', element: <Blog /> }
@@ -41,7 +55,7 @@ export default function Router() {
       path: '/',
       element: <LogoOnlyLayout />,
       children: [
-        { path: '/', element: <Navigate to="/dashboard/app" /> },
+        { path: '/', element: <Navigate to="/app/dashboard" /> },
         { path: 'login', element: <Login /> },
         { path: 'register', element: <Register /> },
         { path: '404', element: <NotFound /> },

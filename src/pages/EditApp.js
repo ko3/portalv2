@@ -82,7 +82,7 @@ function applySortFilter(array, comparator, query) {
   return stabilizedThis.map((el) => el[0]);
 }
 
-export default function AddApp() {
+export default function EditApp() {
   const [openFilter, setOpenFilter] = useState(false);
   const navigate = useNavigate();
 
@@ -240,12 +240,16 @@ export default function AddApp() {
 
   const isProductNotFound = selectProducts.length > 0 && filteredProducts.length === 0;
 
+  const onDeleteApp = () => {
+    console.log('deleted app');
+  };
+
   return (
-    <Page title="Add App | Portal">
+    <Page title="Edit App | Portal">
       <Container>
         <Stack direction="row" alignItems="center" justifyContent="space-between" mb={5}>
           <Typography variant="h4" gutterBottom>
-            New App
+            Edit App
           </Typography>
         </Stack>
         <Card>
@@ -427,6 +431,18 @@ export default function AddApp() {
                   }}
                 >
                   Save
+                </Button>
+                <Button
+                  sx={{ maxWidth: 250 }}
+                  variant="contained"
+                  component={RouterLink}
+                  to="#"
+                  startIcon={<Iconify icon="eva:trash-fill" />}
+                  onClick={() => {
+                    onDeleteApp();
+                  }}
+                >
+                  Delete
                 </Button>
               </Stack>
             </Box>
